@@ -18,6 +18,9 @@ class ShoppingBag:
         df=pd.DataFrame(
                    columns=['code', 'price', 'quantity','type','discount']) #this creates the data frame with only column names
         #I can keep adding colums with df['column_name']=list or I can create a numpy array with the lists, compute the transpose, and introduce that as the first argument of the data frame
+        if not items:
+            return 0
+            
         code_price=dict([(l[0:3],float(l[3:6])) for l in items])
         repeated_codes=[l[0:3] for l in items]
         
@@ -53,7 +56,7 @@ class ShoppingBag:
             c_discounts=[float(d[-2:]) for d in discounts_quantity if d[1]=='C']
             if p_discounts and c_discounts:
                 max_p_value=max(p_discounts)
-                max_p_index = p_discounts.index(max_c_value)
+                max_p_index = p_discounts.index(max_p_value)
                 max_p_discount=p_disconts[max_p_index]
                 
                 max_c_value=max(c_discounts)
@@ -95,7 +98,7 @@ class ShoppingBag:
             else:
                 types.append(None)
                 discount_column.append(f'{0}£')
-                pay.append(price)
+                pay.append(price*quantity)
                 
     
         df[['type','discount']]=np.array([types,discount_column]).transpose()
